@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken')
 const userModel = require('../model/userModel')
 const salt = bcrypt.genSaltSync(10)
 const log = console.log.bind(console)
-
+const path = require('path')
+const donwload = require('image-downloader')
 const jwtSecreat = 'dnf2ou3yh79f2g38fhxn39183ywx'
 user.post('/login',async (req,res)=>{
     const {email,password} = req.body
@@ -44,11 +45,11 @@ user.get('/profile',(req,res)=>{
     if(token){
 jwt.verify(token,jwtSecreat,{},(err,user)=>{
  if(err) throw err;
- return res.json(user)
+ return res.json({user,status:true})
 })
     }else{
 
-      return  res.json(null)
+      return  res.json({status:false})
     }
 
     
@@ -57,5 +58,21 @@ jwt.verify(token,jwtSecreat,{},(err,user)=>{
 
 user.post('/logout',(req,res)=>{
 res.cookie('token','',{sameSite: 'None',secure: true,}).json({msg:'logout'})
+})
+
+
+
+
+
+user.post('/upload-by-link', async (req,res)=>{
+    const newName = 'photo'+Date.now() + '.jpg'
+
+    const parentDir = path.join(__dirname, '..');
+    const {link} = req.body
+   await donwload.image({
+      url:link,
+      dest:parentDir +'/upload/' + newName
+    })
+res.json(newName)
 })
 module.exports = user

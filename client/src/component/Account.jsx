@@ -1,25 +1,34 @@
-import React, { useEffect } from "react";
-import { useContext } from "react";
-import { userdata } from "../userContext";
+import React, { useEffect  } from "react";
+import { useContext ,useState } from "react";
+import { userdata, } from "../userContext";
 import { NavLink, Navigate } from "react-router-dom";
 import axios from "axios";
 import '../app.css'
 import { Outlet } from "react-router-dom";
+axios
 const Account = () => {
   const { user, ready ,setUser} = useContext(userdata);
+  const [redirect,setredirect] = useState(false)
+  console.log('ma9n')
+  useEffect(()=>{
+ 
+    axios.get('/user/profile').then((data)=>{
+      setredirect(data.data.status)
+     
+    })
 
-  if (!ready) {
-    return "Loading....`";
-  }
+},[])
+  console.log(redirect)
 
-  if (ready && !user) {
-    return <Navigate to={"/login"} />;
-  }
+if(redirect){
+  console.log('login')
+}else{
+  console.log('logout')
+}
 
-  const handelckick = async()=>{
-      await axios.post('/user/logout')
-      setUser(null)
-  }
+ 
+
+
 
   return (
     <div className="w-full flex justify-center flex-col items-center" >
@@ -30,8 +39,7 @@ const Account = () => {
       </nav>
   
       <Outlet/>
-      <p>Logged in as {user?.data?.name} <span className="underline text-blue-300" > ( {user?.data?.email} )</span></p>
-      <button onClick={handelckick} >Logout</button>
+     
     </div>
   );
 };

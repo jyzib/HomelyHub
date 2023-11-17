@@ -17,7 +17,8 @@ const Loginpage = () => {
  })
  setEmail('')
  setPassword('')
- setUser(logindata.data)
+
+ setUser(logindata.data.data)
  setRedirect(logindata.data.status)
  
     }

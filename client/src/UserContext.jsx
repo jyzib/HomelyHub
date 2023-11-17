@@ -8,11 +8,16 @@ const UserContext = ({children}) => {
     const [ready,setReady] = useState(false)
    useEffect(()=>{
     console.log(user?.data)
-    if(!user){
-        axios.get('/user/profile').then((data)=>{setUser(data)})
-        setReady(true)
+    if(!user?.data){
+      console.log('object')
+        axios.get('/user/profile').then((data)=>{
+            setUser(data.data.user)
+            setReady(data.data.status)
+            
+        })
     }
    },[])
+
   return (
     <>
     <userdata.Provider value={{user,setUser,ready}}>

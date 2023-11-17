@@ -8,6 +8,8 @@ const user = require('./routes/user')
 
 mongoose.connect('mongodb://127.0.0.1:27017/airbnb').then(()=>console.log('Db connected')).catch(()=>console.log('db connection faild'))
 app.use(cookiesParser())
+
+app.use('/upload',express.static(__dirname+'/upload'))
 app.use(cors({
     origin:'http://localhost:5173',
     credentials:true

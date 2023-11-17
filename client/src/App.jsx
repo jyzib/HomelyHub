@@ -8,6 +8,8 @@ import UserContext from "./UserContext"
 import Booking from "./component/Booking"
 import Places from "./component/Places"
 import Myaccount from "./component/Myaccount"
+import Allplace from "./component/Allplace"
+import Addplaces from "./component/Addplaces"
 axios.defaults.baseURL = 'http://127.0.0.1:3000'
 axios.defaults.withCredentials = true;
 function App() {
@@ -26,7 +28,11 @@ function App() {
       <Route path="/account" element={<Account/>}>
         <Route index element={<Myaccount/>} />
         <Route path="booking" element={<Booking/>} />
-        <Route path="places" element={<Places/>} />
+        <Route path="places" element={<Places/>}>
+          <Route index element={<Allplace/>}/>
+          <Route path="new" element={<Addplaces/>} />
+           
+        </Route>
 
 
       </Route>
