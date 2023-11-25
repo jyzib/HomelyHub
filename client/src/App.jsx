@@ -18,21 +18,20 @@ function App() {
     <>
 <UserContext>
 
-
-
     <Routes>
       <Route path="/" element={<Layout/>} >
       <Route index element={<IndexPage/>} />
       <Route path="/login" element={<Loginpage/>}/>
       <Route path="/regester" element={<Regester/>}/>
       <Route path="/account" element={<Account/>}>
-        <Route index element={<Myaccount/>} />
-        <Route path="booking" element={<Booking/>} />
-        <Route path="places" element={<Places/>}>
-          <Route index element={<Allplace/>}/>
-          <Route path="new" element={<Addplaces/>} />
-           
-        </Route>
+      <Route index element={<Myaccount/>} />
+      <Route path="booking" element={<Booking/>} />
+      <Route path="places" element={<Places/>}>
+      <Route index element={<Allplace/>}/>
+    
+      <Route path="new" element={<Addplaces/>} />
+      <Route path="new/:id" element={<Addplaces/>} />
+      </Route>
 
 
       </Route>

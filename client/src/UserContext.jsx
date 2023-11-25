@@ -6,11 +6,13 @@ export const userdata = createContext({})
 const UserContext = ({children}) => {
     const [user,setUser] = useState(null)
     const [ready,setReady] = useState(false)
+    const [places,setPlaces] = useState([])
    useEffect(()=>{
-    console.log(user?.data)
+    
     if(!user?.data){
-      console.log('object')
+   
         axios.get('/user/profile').then((data)=>{
+          console.log(data.data)
             setUser(data.data.user)
             setReady(data.data.status)
             
@@ -20,7 +22,7 @@ const UserContext = ({children}) => {
 
   return (
     <>
-    <userdata.Provider value={{user,setUser,ready}}>
+    <userdata.Provider value={{user,setUser,ready,setPlaces,places}}>
   {children}
     </userdata.Provider>
     </>

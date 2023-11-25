@@ -9,6 +9,7 @@ const Loginpage = () => {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
   const [redirect,setRedirect] = useState(false)
+  const [login,setLogin] = useState(false)
     const handelsubmit =async (e)=>{
  e.preventDefault()
  const logindata = await axios.post('/user/login',{
@@ -17,9 +18,15 @@ const Loginpage = () => {
  })
  setEmail('')
  setPassword('')
+console.log(logindata.data.status)
+if(logindata.data.status){
 
- setUser(logindata.data.data)
- setRedirect(logindata.data.status)
+  setUser(logindata.data.data)
+  setRedirect(logindata.data.status)
+  setLogin(false)
+}else{
+  setLogin(true)
+}
  
     }
     if(redirect){
@@ -37,6 +44,7 @@ const Loginpage = () => {
     <button className="bg-primary text-white p-1 rounded-md" >Login</button>
   </form>
   <p className="pt-2" >Don't have a Account yet <Link className="text-blue-500 underline" to={'/regester'}>Regester</Link></p>
+  {login && (<p>Wrong password</p>)}
     </div>
     </div>
   )

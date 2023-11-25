@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import Perks from "./Perks";
 import axios from 'axios'
+import { useContext } from "react";
+import {userdata} from "../userContext";
+import { useParams } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 const Addplaces = () => {
+  const {user,setPlaces} = useContext(userdata);
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [addedphotos, setAddedphotos] = useState([]);
@@ -14,10 +19,31 @@ const Addplaces = () => {
   const [checkin, setCheckin] = useState("");
   const [checkout, setCheckout] = useState("");
   const [maxGuest, setMaxguest] = useState(1);
-  
+  const [redirect,setRedirect] = useState('')
+  const {id} = useParams()
+  useEffect(()=>{
+    if(!id){
+      const getsingleuser =async ()=>{
+        const single = await axios.get(`/user/${id}`)
+        const {title,address,description,checkin,checkout,addedphotos
+        } = single.data.userplaces
+        setTitle(title)
+        setAddress(address)
+        setDescription(description)
+        setCheckin(checkin)
+        setCheckout(checkout)
+        console.log(single.data.userplaces)
+      }
+     
+        getsingleuser()
+     
+    }
+  },[])
+
   const printp = (dep) => {
     return <p>{dep}</p>;
   };
+  console.log(user)
   const printtitle = (text, dep) => {
     return (
       <>
@@ -32,30 +58,40 @@ const Addplaces = () => {
     e.preventDefault()
 const allimages = await axios.post('/user/upload-by-link',{link:photoslink})
 setAddedphotos([...addedphotos,allimages.data])
-   
-  }
-
+}
 const handelfile =async (e)=>{
     const data = new FormData()
     const files = e.target.files
-    console.log(files.length)
+    console.log(files)
     for(let i =0;i<=files.length;i++){
         data.append('photos',files[i])
     }
-await axios.post('/user/upload',data,{
+const datafile = await axios.post('/user/upload',data,{
     headers:{'Content-Type' :'multipart/form-data'}
 })
+setAddedphotos([...addedphotos,...datafile.data.msg])
+}
+const handelsubmit = async (e)=>{
+e.preventDefault();
+console.log(user)
+if(title && address&& description&&checkin&&checkout&&maxGuest&&extraInfo){
 
-    console.log(data.entries())
-    // for (const pair of data.entries()) {
-    //     console.log(pair[0], pair[1]);
-    // }
-
+  const data = {title,address,description,perkes,checkin,checkout,maxGuest,extraInfo,addedphotos,owner:user.id}
+  const placeData = await axios.post('/user/places',data)
+  setRedirect('/account/places')
+  setPlaces(placeData.data.userplaces)
+}else{
+ alert("Form is empty")
+}
 
 }
+if(redirect){
+// return <Navigate to={redirect} />
+}
+
   return (
     <div>
-      <form className="flex flex-col w-full gap-y-2">
+      <form className="flex flex-col w-full gap-y-2" onSubmit={handelsubmit} >
         {printtitle("Title", "title gose here")}
         <input
           value={title}
@@ -88,7 +124,7 @@ await axios.post('/user/upload',data,{
         </div>
         <div className="flex gap-x-5">
         {addedphotos.length > 0 && addedphotos.map((e,i)=>{
-            return (  <img className="w-32 rounded-lg " key={i} src={`http://127.0.0.1:3000/upload/${e}`} alt=""/>)
+            return (  <img className="w-32 rounded-lg object-cover " key={i} src={`http://127.0.0.1:3000/upload/${e}`} alt=""/>)
         })}
         </div>
         <div className="">
@@ -125,10 +161,11 @@ await axios.post('/user/upload',data,{
           rows="10"
           placeholder=""
         ></textarea>
-        <Perks selected={(perkes, setPerkas)} />
+        <Perks selected={perkes} onChange={setPerkas}/>
         <h2>Extra info</h2>
         <p className="text-xs">house rules</p>
         <textarea
+        value={extraInfo}
           onChange={(ev) => setExtrainfo(ev.target.value)}
           className="border h-20 rounded-lg"
           name=""
@@ -172,6 +209,7 @@ await axios.post('/user/upload',data,{
 
         <button className="bg-primary p-2 rounded-full  mt-2">Save</button>
       </form>
+     
     </div>
   );
 };
