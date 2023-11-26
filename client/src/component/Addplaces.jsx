@@ -21,24 +21,7 @@ const Addplaces = () => {
   const [maxGuest, setMaxguest] = useState(1);
   const [redirect,setRedirect] = useState('')
   const {id} = useParams()
-  useEffect(()=>{
-    if(!id){
-      const getsingleuser =async ()=>{
-        const single = await axios.get(`/user/${id}`)
-        const {title,address,description,checkin,checkout,addedphotos
-        } = single.data.userplaces
-        setTitle(title)
-        setAddress(address)
-        setDescription(description)
-        setCheckin(checkin)
-        setCheckout(checkout)
-        console.log(single.data.userplaces)
-      }
-     
-        getsingleuser()
-     
-    }
-  },[])
+ 
 
   const printp = (dep) => {
     return <p>{dep}</p>;
@@ -76,7 +59,7 @@ e.preventDefault();
 console.log(user)
 if(title && address&& description&&checkin&&checkout&&maxGuest&&extraInfo){
 
-  const data = {title,address,description,perkes,checkin,checkout,maxGuest,extraInfo,addedphotos,owner:user.id}
+  const data = {title,address,description,perkes,checkin,checkout,maxGuest,extraInfo,addedphotos,owner:user?.id?user?.id:user?._id}
   const placeData = await axios.post('/user/places',data)
   setRedirect('/account/places')
   setPlaces(placeData.data.userplaces)
@@ -117,7 +100,7 @@ if(redirect){
             type="text"
             placeholder="add using a link..."
           />
-          <button onClick={handelphotoslink} className="bg-primary p-2 rounded-full ml-3">
+          <button onClick={handelphotoslink} className="text-white font-bold bg-primary p-2 rounded-full ml-3">
             {" "}
             Add photos
           </button>

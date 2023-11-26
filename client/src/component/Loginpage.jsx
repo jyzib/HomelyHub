@@ -4,7 +4,7 @@ import { useState,useContext } from "react"
 import axios from "axios"
 import { userdata } from "../userContext"
 const Loginpage = () => {
-  const {setUser} = useContext(userdata)
+  const {setUser,setlogin} = useContext(userdata)
   
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
@@ -20,7 +20,7 @@ const Loginpage = () => {
  setPassword('')
 console.log(logindata.data.status)
 if(logindata.data.status){
-
+  setlogin('login')
   setUser(logindata.data.data)
   setRedirect(logindata.data.status)
   setLogin(false)

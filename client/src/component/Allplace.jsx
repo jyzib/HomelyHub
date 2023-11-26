@@ -10,25 +10,26 @@ const Allplace = () => {
   const {user} = useContext(userdata)
   const [places,setPlaces] = useState([])
 
-useEffect(()=>{
-    setUser(user)   
-  },[user])
+// useEffect(()=>{
+//     setUser(user)   
+//   },[user])
   useEffect(()=>{
-    const getdata = async ()=>{
+    const getdata = async (user)=>{
 
-      const data =await axios.post('/user/Allplaces',{owner:users?.id})
+      const data =await axios.post('/user/Allplaces',{owner:user?._id ?user?._id:user?.id})
       setPlaces(data.data.userplaces)
-      console.log(places)
+      console.log( )
     }
-    getdata()
+   
+    getdata(user)
 
-  },[users])
+  },[user])
 
   return (
     <div>
-        <Link  className='bg-primary p-2 rounded-full px-4' to={'/account/places/new'} >Add place</Link>
+        <Link  className=' text-white font-bold bg-primary p-2 rounded-full px-4' to={'/account/places/new'} >Add place</Link>
      
-        <div className="">
+        <div className=" w-2/3 m-auto">
         {places&&places.map((e,i)=>{
           console.log(e)
 return (

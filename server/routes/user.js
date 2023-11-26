@@ -113,9 +113,9 @@ user.post('/places',async(req,res)=>{
 
 })
 user.post('/Allplaces',async(req,res)=>{
-   const data = req.body
-console.log(data)
-   const userplaces = await placesSchma.find(data)
+   const {owner} = req.body
+console.log(owner)
+   const userplaces = await placesSchma.find({owner:owner})
 
    res.json({userplaces})
 

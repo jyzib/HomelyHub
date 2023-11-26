@@ -4,9 +4,11 @@ import axios from "axios"
 export const userdata = createContext({})
 
 const UserContext = ({children}) => {
-    const [user,setUser] = useState(null)
+    const [user,setUser] = useState([])
     const [ready,setReady] = useState(false)
     const [places,setPlaces] = useState([])
+    const [islogin,setlogin] = useState('')
+    console.log(user)
    useEffect(()=>{
     
     if(!user?.data){
@@ -18,11 +20,11 @@ const UserContext = ({children}) => {
             
         })
     }
-   },[])
+   },[islogin])
 
   return (
     <>
-    <userdata.Provider value={{user,setUser,ready,setPlaces,places}}>
+    <userdata.Provider value={{user,setUser,setlogin,ready,setPlaces,places}}>
   {children}
     </userdata.Provider>
     </>
