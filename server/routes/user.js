@@ -112,6 +112,18 @@ user.post('/places',async(req,res)=>{
    res.json({userplaces})
 
 })
+user.put('/places',async(req,res)=>{
+
+   const data = req.body
+console.log(data)
+//    const dataAll =  await placesSchma.create(data)
+
+//    console.log(dataAll.owner)
+//    const userplaces = await placesSchma.find({owner:dataAll.owner})
+//    console.log(userplaces)
+   res.json({msg:'true'})
+
+})
 user.post('/Allplaces',async(req,res)=>{
    const {owner} = req.body
 console.log(owner)
@@ -122,10 +134,10 @@ console.log(owner)
 })
 user.get('/:id',async(req,res)=>{
    const {id} = req.params
-
+console.log(id)
    const userplaces = await placesSchma.findOne({_id:id})
    console.log(userplaces)
-   res.json({userplaces})
+   res.json(userplaces)
 
 })
 

@@ -56,21 +56,52 @@ setAddedphotos([...addedphotos,...datafile.data.msg])
 }
 const handelsubmit = async (e)=>{
 e.preventDefault();
-console.log(user)
-if(title && address&& description&&checkin&&checkout&&maxGuest&&extraInfo){
 
-  const data = {title,address,description,perkes,checkin,checkout,maxGuest,extraInfo,addedphotos,owner:user?.id?user?.id:user?._id}
-  const placeData = await axios.post('/user/places',data)
-  setRedirect('/account/places')
-  setPlaces(placeData.data.userplaces)
+const data = {title,address,description,perkes,checkin,checkout,maxGuest,extraInfo,addedphotos,owner:user?.id?user?.id:user?._id}
+if(id){
+  const newData = await axios.put('/user/places',{...data,id})
+  console.log(newData.data)
 }else{
- alert("Form is empty")
+
+  if(title && address&& description&&checkin&&checkout&&maxGuest&&extraInfo){
+  
+    const placeData = await axios.post('/user/places',data)
+    setRedirect('/account/places')
+
+    // setPlaces(placeData.data.userplaces)
+  }else{
+   alert("Form is empty")
+  }
 }
+
 
 }
 if(redirect){
 // return <Navigate to={redirect} />
 }
+
+useEffect( ()=>{
+if(!id){
+return
+}
+
+axios.get(`/user/${id}`).then((res)=>{
+  setTitle(res.data.title)
+  setDescription(res.data.description)
+  setAddress(res.data.address)
+  setCheckin(res.data.checkin)
+  setCheckout(res.data.checkout)
+  setMaxguest(res.data.maxGuest)
+  setExtrainfo(res.data.extraInfo)
+  setAddedphotos(res.data.addedphotos)
+  setPerkas(res.data.perkes)
+  
+  
+
+}).catch((err)=>{console.log(err)})
+
+
+},[id])
 
   return (
     <div>
@@ -83,6 +114,7 @@ if(redirect){
           type="text"
           placeholder="title forexample my lovely appartment"
         />
+
         <h2>Address</h2>
         <input
           value={address}
