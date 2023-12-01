@@ -15,10 +15,10 @@ useEffect(()=>{
 },[])
 
   return (
-    <div className='grid grid-cols-3 gap-6 p-10' >
+    <div className='grid grid-cols-3 gap-6 p-10 shadow-lg' >
       {places.length > 0 && places.map((e)=>{
         return (
-          <Link to={`/places/${e._id}`}  key={e._id} >
+          <Link className='shadow-lg p-2 rounded-sm' to={`/places/${e._id}`}  key={e._id} >
         <div  >
           <div className=" rounded-md h-48 ">
           <img className='w-full rounded-md h-full object-cover' src={`http://127.0.0.1:3000/upload/${e.addedphotos[0]}`} alt="" />

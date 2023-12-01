@@ -73,6 +73,7 @@ const Addplaces = () => {
     };
     if (id) {
       const newData = await axios.put("/user/places", { ...data, id });
+      setRedirect("/account/places");
       console.log(newData.data);
     } else {
       if (
@@ -91,9 +92,6 @@ const Addplaces = () => {
       }
     }
   };
-  if (redirect) {
-    // return <Navigate to={redirect} />
-  }
 
   useEffect(() => {
     if (!id) {
@@ -136,6 +134,10 @@ const Addplaces = () => {
     setAddedphotos([e,...filterdata])
 
   }
+  if (redirect) {
+    return <Navigate to={redirect} />
+  }
+
   return (
     <div>
       <form className="flex flex-col w-full gap-y-2" onSubmit={handelsubmit}>
