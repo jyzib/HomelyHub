@@ -10,7 +10,8 @@ const places = mongoose.Schema({
     maxGuest:{type:String},
     extraInfo:{type:String},
     addedphotos:[{type:String}],
-    owner:{type:String}
+    owner:{type:String},
+    prices:{type:String}
 })
 
 const placesSchma = mongoose.model('place',places)

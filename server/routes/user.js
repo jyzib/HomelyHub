@@ -110,7 +110,7 @@ user.post("/places", async (req, res) => {
 });
 user.put("/places", async (req, res) => {
 const {token} =  req.cookies;
-const {title,address,description,perkes,checkin,checkout,maxGuest,extraInfo,addedphotos,owner,id} = req.body;
+const {title,address,description,perkes,checkin,checkout,maxGuest,extraInfo,addedphotos,owner,id,prices} = req.body;
   console.log(addedphotos)
 const dataAll = await placesSchma.findById(id);
 console.log(dataAll._id)
@@ -119,7 +119,7 @@ jwt.verify(token, jwtSecreat, {}, (err, user) => {
     if(user.id == dataAll.owner){
       placesSchma.updateOne({ _id: dataAll._id }, {
         $set: {
-            title, address, description, perkes, checkin, checkout, maxGuest, extraInfo, addedphotos
+            title, address, description, perkes, checkin, checkout, maxGuest, extraInfo, addedphotos,prices
         }
     }).then((res) => console.log(res)).catch((err) => console.log(err))
     } 

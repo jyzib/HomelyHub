@@ -20,6 +20,7 @@ const Addplaces = () => {
   const [checkout, setCheckout] = useState("");
   const [maxGuest, setMaxguest] = useState(1);
   const [redirect, setRedirect] = useState("");
+  const [prices,setPrices] = useState('')
   const { id } = useParams();
 
   const printp = (dep) => {
@@ -67,6 +68,7 @@ const Addplaces = () => {
       maxGuest,
       extraInfo,
       addedphotos,
+      prices,
       owner: user?.id ? user?.id : user?._id,
     };
     if (id) {
@@ -110,6 +112,7 @@ const Addplaces = () => {
         setExtrainfo(res.data.extraInfo);
         setAddedphotos(res.data.addedphotos);
         setPerkas(res.data.perkes);
+        setPrices(res.data.prices)
       })
       .catch((err) => {
         console.log(err);
@@ -298,6 +301,16 @@ const Addplaces = () => {
             <input
               value={maxGuest}
               onChange={(ev) => setMaxguest(ev.target.value)}
+              className="border p-1 px-3 rounded-full"
+              type="text"
+              placeholder="14:00"
+            />
+          </div>
+          <div className="">
+            <h4>Prices</h4>
+            <input
+              value={prices}
+              onChange={(ev) => setPrices(ev.target.value)}
               className="border p-1 px-3 rounded-full"
               type="text"
               placeholder="14:00"

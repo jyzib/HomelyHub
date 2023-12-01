@@ -10,6 +10,7 @@ import Places from "./component/Places"
 import Myaccount from "./component/Myaccount"
 import Allplace from "./component/Allplace"
 import Addplaces from "./component/Addplaces"
+import Singlepage from "./component/Singlepage"
 axios.defaults.baseURL = 'http://127.0.0.1:3000'
 axios.defaults.withCredentials = true;
 function App() {
@@ -31,10 +32,12 @@ function App() {
     
       <Route path="new" element={<Addplaces/>} />
       <Route path="new/:id" element={<Addplaces/>} />
+     
       </Route>
 
 
       </Route>
+      <Route  path="places/:id"  element={<Singlepage/>} />
       </Route>
 
     </Routes>
